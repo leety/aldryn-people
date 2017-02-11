@@ -5,4 +5,10 @@
 
 {% block content %}
     {% include "aldryn_people/includes/person.html" with person=person detail_view="true" %}
+
+    {% for article in object.articles.all %}
+        {% include "aldryn_people/includes/article.html" with namespace=article_namespace %}
+    {% empty %}
+        <p>{% trans "No items available" %}</p>
+    {% endfor %}
 {% endblock content %}
