@@ -83,6 +83,15 @@ class PersonDetailView(LanguageChangerMixin, AllowPKsTooMixin,
                        TranslatableSlugMixin, DetailView):
     model = Person
 
+    def get_queryset(self):
+        qs = super(PersonDetailView, self).get_queryset()
+        return qs.prefetch_related('articles')
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonDetailView, self).get_context_data(**kwargs)
+        context['article_namespace'] = self.object.articles.model._meta.app_label
+        return context
+
 
 class GroupDetailView(LanguageChangerMixin, AllowPKsTooMixin,
                       TranslatableSlugMixin, DetailView):
